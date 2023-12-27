@@ -1,24 +1,44 @@
 import 'package:flutter/material.dart';
-import 'package:sleep_ai/screens/login.dart';
+import 'screens/home.dart';
+import 'screens/login.dart';
+import 'screens/register.dart';
 
 void main() {
   runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+  const MyApp({Key? key});
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      routes: {
+        '/screens/register.dart': (context) => RegisterPage(),
+        '/screens/login.dart': (context) => LoginPage(),
+        '/screens/home.dart': (context) => HomePage(),
+      },
       title: "SleepAI",
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
-        primaryColor: Colors.blueGrey,
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-      home: Login()
+      home: Builder(
+        builder: (context) => Stack(
+          fit: StackFit.expand,
+          children: [
+            Container(
+              decoration: const BoxDecoration(
+                image: DecorationImage(
+                  image: AssetImage("assets/images/bg-app.jpg"),
+                  fit: BoxFit.cover,
+                ),
+              ),
+            ),
+            HomePage(),
+          ],
+        ),
+      ),
     );
   }
 }
-

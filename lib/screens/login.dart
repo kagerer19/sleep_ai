@@ -1,20 +1,24 @@
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import '../components/button.dart';
+import '../components/square_tile.dart';
+import '../components/textfield.dart';
 
-class Login extends StatefulWidget {
-  const Login({super.key});
+class LoginPage extends StatelessWidget {
+  LoginPage({Key? key});
 
-  @override
-  _LoginState createState() => _LoginState();
-}
+  // text editing controllers
+  final usernameController = TextEditingController();
+  final passwordController = TextEditingController();
 
-class _LoginState extends State<Login> {
+  // sign user in method
+  void signUserIn() {}
+
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        // Dismiss the keyboard when tapped anywhere on the screen
-        FocusScope.of(context).requestFocus(FocusNode());
+        // Dismiss keyboard when tapped anywhere on the screen
+        FocusScope.of(context).unfocus();
       },
       child: Scaffold(
         body: Container(
@@ -24,104 +28,143 @@ class _LoginState extends State<Login> {
               fit: BoxFit.cover,
             ),
           ),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
-              _header(),
-              Align(
-                alignment: Alignment.center,
-                child: _inputField(),
+          child: Center(
+            child: SingleChildScrollView(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  const SizedBox(height: 20),
+                  const SizedBox(height: 50),
+
+                  // welcome back, you've been missed!
+                  const Text(
+                    'Welcome back!',
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 23,
+                    ),
+                  ),
+
+                  const SizedBox(height: 25),
+
+                  // username textfield
+                  MyTextField(
+                    controller: usernameController,
+                    hintText: 'Username',
+                    obscureText: false,
+                  ),
+
+                  const SizedBox(height: 10),
+
+                  // password textfield
+                  MyTextField(
+                    controller: passwordController,
+                    hintText: 'Password',
+                    obscureText: true,
+                  ),
+
+                  const SizedBox(height: 10),
+
+                  // forgot password?
+                  const Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 25.0),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: [
+                        Text(
+                          'Forgot Password?',
+                          style: TextStyle(color: Colors.white),
+                        ),
+                      ],
+                    ),
+                  ),
+
+                  const SizedBox(height: 25),
+
+                  // sign in button
+                  MyButton(
+                    onTap: signUserIn,
+                  ),
+
+                  const SizedBox(height: 50),
+
+                  // or continue with
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 25.0),
+                    child: Row(
+                      children: [
+                        const Expanded(
+                          child: Divider(
+                            thickness: 0.5,
+                            color: Colors.white,
+                          ),
+                        ),
+                        const Padding(
+                          padding: EdgeInsets.symmetric(horizontal: 10.0),
+                          child: Text(
+                            'Or continue with',
+                            style: TextStyle(color: Colors.white),
+                          ),
+                        ),
+                        Expanded(
+                          child: Divider(
+                            thickness: 0.5,
+                            color: Colors.grey[400],
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+
+                  const SizedBox(height: 20),
+
+                  // google + apple sign in buttons
+                  const Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      // google button
+                      SquareTile(imagePath: 'assets/icons/apple_icon.png'),
+
+                      SizedBox(width: 15),
+
+                      // apple button
+                      SquareTile(imagePath: 'assets/icons/google_icon.png')
+                    ],
+                  ),
+
+                  const SizedBox(height: 40),
+
+                  // not a member? register now
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      const Text(
+                        'Not a member?',
+                        style: TextStyle(color: Colors.white),
+                      ),
+                      const SizedBox(width: 4),
+                      InkWell(
+                        onTap: () {
+                          // Navigate to the registration page here
+                          Navigator.pushNamed(context, '/register');
+                          // Use your route name
+                        },
+                        child: const Text(
+                          'Register now',
+                          style: TextStyle(
+                            color: Colors.blue,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ),
+                    ],
+                  )
+                ],
               ),
-            ],
+            ),
           ),
         ),
       ),
-    );
-  }
-
-  Widget _header() {
-    return Container(
-      margin: const EdgeInsets.only(bottom: 2), // Adjust the bottom margin
-      child: const Padding(
-        padding: EdgeInsets.all(6),
-        child: Column(
-          children: [
-            Text(
-              "Welcome Back!",
-              style: TextStyle(
-                fontSize: 40,
-                fontWeight: FontWeight.bold,
-                color: Colors.white,
-              ),
-            ),
-            Text(
-              "Enter your details to login!",
-              style: TextStyle(color: Colors.white),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-
-  Widget _inputField() {
-    return Column(
-      children: [
-        const SizedBox(height: 26),
-        SizedBox(
-          width: 300,
-          child: TextField(
-            decoration: InputDecoration(
-              hintText: "Username",
-              contentPadding:
-              const EdgeInsets.symmetric(vertical: 15, horizontal: 10),
-              border: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(9),
-                borderSide: BorderSide.none,
-              ),
-              fillColor: Colors.white60,
-              filled: true,
-              prefixIcon: const Icon(Icons.person),
-            ),
-          ),
-        ),
-        const SizedBox(height: 16),
-        SizedBox(
-          width: 300,
-          child: TextField(
-            decoration: InputDecoration(
-              hintText: "Password",
-              contentPadding:
-              const EdgeInsets.symmetric(vertical: 15, horizontal: 10),
-              border: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(9),
-                borderSide: BorderSide.none,
-              ),
-              fillColor: Colors.white60,
-              filled: true,
-              prefixIcon: const Icon(Icons.lock),
-            ),
-          ),
-        ),
-        const SizedBox(height: 30),
-        Column(
-          children: [
-            SizedBox(
-              width: 120,
-              height: 50,
-              child: ElevatedButton(
-                onPressed: () {
-                  // Handle login button press
-                },
-                style: ButtonStyle(
-                  backgroundColor: MaterialStateProperty.all<Color>(Colors.white54),
-                ),
-                child: const Text("Login"),
-              ),
-            ),
-          ],
-        ),
-      ],
     );
   }
 }
